@@ -1,0 +1,99 @@
+
+
+.recensie_start{
+	position: fixed;
+	width: 40px;
+	min-height: 110px;
+	background: #4C4C4C;
+	bottom: 45%;
+	right: 0px;
+	z-index: 20;
+	color: white;
+	font-weight: 600;
+	font-size: 20px;
+	padding: 5px 0px 0px 0px;
+	border-radius: 5px 0px 0px 5px;
+	transition: 0.2s;
+	cursor: default;
+}
+.recensie_start:hover{
+	width: 50px;
+	padding-top: 10px;
+}
+.recensie_text{
+	position: relative;
+	left: 10%;
+	top: 0;
+	width: 100%;
+	height: 30px;
+	transform: rotate(90deg);
+	text-align: center;
+	padding-left: 10px;
+}
+.recensie_popup{
+	display: none;
+	position: fixed;
+	right: 40px;
+	bottom: 30%;
+	z-index: 20;
+	width: 250px;
+	min-height: 200px;
+	background-color: #FEFEFE;
+	border-radius: 5px;
+	-moz-box-shadow:    3px 3px 40px 3px black;
+ 	-webkit-box-shadow: 3px 3px 40px 3px black;
+ 	box-shadow:         3px 3px 40px 3px black;
+}
+.recensie_popup_text{
+	width: 90%;
+	padding:5%;
+	font-weight: 600;
+}
+.recensie_popup_textarea{
+	position: relative;
+	margin-top: 10px;
+	resize: none;
+}
+.recensie_close{
+	position: absolute;
+	color: #222222;
+	top: -20px;
+	z-index: 21;
+	right: 10px;
+	transition: 0.3s;
+	font-size: 40px;
+}
+.recensie_close:hover ,.popup_send:hover{
+	transform: scale(1.1,1.1);
+}
+.smiley{
+	font-size: 30px;
+	position: relative;
+	display: inline-block;
+	width: 30%;
+	height: 0;
+	text-align: center;
+	transition:0.3s;
+}
+.smiley:hover{
+	transform: scale(1.3,1.3);
+}
+.popup_send{
+	position: relative;
+	padding:5px;
+	background:gray; 
+	border:none;
+	border-radius: 5px;
+	font-size: 20px;
+	font-weight: 600;
+	bottom: -5px;
+	left:65%;
+	transition:0.3s;
+}
+.popupform{
+	position: relative;
+	bottom: 0;
+	width: 100%;
+	height: auto;
+	/*background-color: red;*/
+}

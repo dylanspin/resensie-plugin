@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" version="3.1.0" group="system" method="upgrade">
+	<name>Recensie Plugin</name>
+	<author>Dylan</author>
+	<version>1.0.0</version>
+	<creationDate>Januari 2020</creationDate>
+	<description>Recensie Plugin</description>
+	<files>
+		<filename>tks_recensie.xml</filename>
+		<filename plugin="tks_recensie">tks_recensie.php</filename>
+		<folder>css</folder>
+	</files>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="recensietext" type="text" label="Recensie text" default="Wat vind u van deze website?"/>
+				<field name="email" type="text" label="Email naar :" default="stefan@takties.nl"/>
+				<field name="site" type="text" label="Naam site" default="dylan.nl"/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
