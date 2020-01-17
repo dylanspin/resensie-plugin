@@ -2,9 +2,10 @@
 
 
   //@author     Dylan spin,
- 
+
     defined('_JEXEC') or die;
     jimport('joomla.plugin.plugin');
+    error_reporting(0);
 
     class PlgSystemtks_recensie extends JPlugin{
 
@@ -32,17 +33,18 @@
                         <div class='recensie_text'>Feedback</div>
                     </div>
                     <div class='recensie_popup' id='popup'>
-                        <div class='recensie_popup_text'>$recensietext</div>
+                        <div class='recensie_popup_text' id='recText'>$recensietext</div>
                         <div class='recensie_close' onclick='closePop()'>
                             <i class='fa fa-times'></i>
                         </div>
                         <div class='smiley' onclick='selectScore(this)' id='sm1'><i class='fa fa-frown-o'></i></div>
                         <div class='smiley' onclick='selectScore(this)' id='sm2'><i class='fa fa-meh-o'></i></div>
                         <div class='smiley' onclick='selectScore(this)' id='sm3'><i class='fa fa-smile-o'></i></div>
-                        <form class='popupform' method='post'>
-                            <textarea name='rec' class='recensie_popup_textarea' rows='5' cols'80'></textarea>  
-                            <input type= 'hidden' name='smiley' id='hiddenPopup' value=''>
-                            <button class='popup_send' name='sendRec'>Stuur</button> 
+                        <form class='popupform' method='post' id='recForm'>
+                            <textarea name='rec' class='recensie_popup_textarea' rows='5' cols'80'></textarea>
+                            <input type='hidden' name='smiley' id='hiddenPopup' value=''>
+                            <input type='text' name='check' value='' id='hideInput'>
+                            <button class='popup_send' name='sendRec'>Stuur</button>
                         </form>
                     </div>";
 
@@ -53,35 +55,48 @@
         public function sendEmail($pluginParams, $text, $score){
 
             $recipient = $pluginParams->get('email');
-            $site = $pluginParams->get('site');
 
             if($score == "sm1"){
                 $score = "Matig";
             }
             elseif ($score == "sm2"){
                 $score = "medium";
-            } 
+            }
             elseif ($score == "sm3"){
-                $score = "Goed";  
+                $score = "Goed";
             }
             else{
-               $score = "Persoon heeft dingen aangepast";  
+               $score = "Niks ingevult";
             }
-            
-            $mailer = JFactory::getMailer();
-            $mailer->addRecipient($recipient);
-            $mailer->addRecipient($recipient);
+
+            $site = $_SERVER['SERVER_NAME'];//sitenaam
+            $subject = "Recensie Website: ".$site;//onderwerp mail
 
             //email layout
-            $body   = "<h1>Site : $site</h1>
-                       <h2>Score : $score</h2>
-                       <h2>Recensie : $text</h2>";
+            $body   = "
+                    <body>
+                       <h1>Site : $site</h1>
+                       <h2>
+                           Score : $score <br>
+                           Recensie : $text
+                       </h2>
+                   </body>";
+
+            $mailer = JFactory::getMailer();
+            $mailer->addRecipient($recipient);
+            $mailer->setSubject($subject);
 
             $mailer->isHtml(true);
             $mailer->Encoding = 'base64';
             $mailer->setBody($body);
 
             $send = $mailer->Send();//stuurt de email.
+
+            if ($send !== true ) {
+            } else {
+                $_SESSION['tijdSet'] = date("Y-m-d h:i:sa");
+                $_SESSION['sendMail'] = true;//set session als email verstuurd is
+            }
 
         }
 
@@ -114,15 +129,33 @@
 
             $pluginParams = $this->params;
 
+            if(isset($_SESSION['sendMail']))//reset the session na de tijd die aangeven is in de xml
+            {
+                $t1 = strtotime( $_SESSION['tijdSet'] );
+                $t2 = strtotime( date("Y-m-d h:i:sa") );
+                $diff = $t2 - $t1;
+                $uren = $diff / ( 60 * 60 );
+
+                if($uren >= $pluginParams->get('tijd')){
+                    $_SESSION['sendMail'] = null;
+                }
+            }
+
             $body = $this->app->getBody();
             $content = $this->createCon($pluginParams);
 
             $body = str_replace('</body>', $content . '</body>', $body );
 
-            $this->app->setBody($body);
+            if(!isset($_SESSION['sendMail'])){//als de form all is ingevult word de plugin niet uitgeprint
+                $this->app->setBody($body);
+            }
 
             if(isset($_POST['sendRec'])){
-                $this->sendEmail($pluginParams,$_POST['rec'],$_POST['smiley']);
+                if(!isset($_SESSION['sendMail']) && empty($_POST['check'])){//check session en hidden field voor spam bot
+                    if(strlen($_POST['rec']) != 0){
+                        $this->sendEmail($pluginParams,$_POST['rec'],$_POST['smiley']);
+                    }
+                }
                 $this->reloadPost();
             }
 

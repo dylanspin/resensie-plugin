@@ -32,6 +32,8 @@
 }
 .recensie_popup{
 	display: none;
+	animation-name : slideIn;
+	animation-duration: 0.5s;
 	position: fixed;
 	right: 40px;
 	bottom: 30%;
@@ -40,9 +42,9 @@
 	min-height: 200px;
 	background-color: #FEFEFE;
 	border-radius: 5px;
-	-moz-box-shadow:    3px 3px 40px 3px black;
- 	-webkit-box-shadow: 3px 3px 40px 3px black;
- 	box-shadow:         3px 3px 40px 3px black;
+	-moz-box-shadow:    3px 3px 10px 3px black;
+ 	-webkit-box-shadow: 3px 3px 10px 3px black;
+ 	box-shadow:         3px 3px 10px 3px black;
 }
 .recensie_popup_text{
 	width: 90%;
@@ -53,6 +55,8 @@
 	position: relative;
 	margin-top: 10px;
 	resize: none;
+	animation-name : slidedown;
+	animation-duration: 0.5s;
 }
 .recensie_close{
 	position: absolute;
@@ -76,12 +80,13 @@
 	transition:0.3s;
 }
 .smiley:hover{
-	transform: scale(1.3,1.3);
+	transform: scale(1.1,1.1);
 }
 .popup_send{
 	position: relative;
 	padding:5px;
 	background:gray; 
+	color: white;
 	border:none;
 	border-radius: 5px;
 	font-size: 20px;
@@ -92,8 +97,31 @@
 }
 .popupform{
 	position: relative;
+	display: none;
 	bottom: 0;
 	width: 100%;
 	height: auto;
-	/*background-color: red;*/
+	transition: 0.2s;
+}
+
+@keyframes slideIn { /*De slide in animatie van het hele vak*/
+  0% {
+    right: -150px;
+    opacity: 0;
+  }
+  100% {
+  	right: 40px;
+  	opacity: 1;
+  }
+}
+
+@keyframes slidedown { /*De slide van de textarea*/
+  0% {
+    height: 0;
+    opacity: 0;
+  }
+  100% {
+  	height: 153px;
+  	opacity: 1;
+  }
 }

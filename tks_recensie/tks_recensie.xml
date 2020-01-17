@@ -9,13 +9,14 @@
 		<filename>tks_recensie.xml</filename>
 		<filename plugin="tks_recensie">tks_recensie.php</filename>
 		<folder>css</folder>
+		<folder>js</folder>
 	</files>
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
 				<field name="recensietext" type="text" label="Recensie text" default="Wat vind u van deze website?"/>
 				<field name="email" type="text" label="Email naar :" default="stefan@takties.nl"/>
-				<field name="site" type="text" label="Naam site" default="dylan.nl"/>
+				<field name="tijd" type="number" label="tijd tussen recensies in uren" default="4"/>
 			</fieldset>
 		</fields>
 	</config>

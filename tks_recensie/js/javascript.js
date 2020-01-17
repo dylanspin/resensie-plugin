@@ -15,11 +15,27 @@
 	var oud;
 
 	function selectScore(welk){//set de selected smiley 
+
 		if(oud != null){
-			document.getElementById(oud).style.fontSize = "30px";
+			document.getElementById(oud).style.color = "";
 		}
+
+		document.getElementById('recForm').style.display = "block";		
+		document.getElementById('hideInput').style.display = "none";
+
 		oud = welk.id; 
 		smiley = welk.id; 
-		document.getElementById(smiley).style.fontSize = "40px";
-		document.getElementById('hiddenPopup').value = smiley;
+
+		if(welk == sm3){
+			document.getElementById(smiley).style.color = "green";
+		}
+		if(welk == sm2){
+			document.getElementById(smiley).style.color = "orange";
+		}
+		if(welk == sm1){
+			document.getElementById(smiley).style.color = "red";
+		}
+		
+		document.getElementById('hiddenPopup').value = smiley;//set de hidden input zo dat de php daar dan de score van pakt
+
 	}
